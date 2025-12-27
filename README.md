@@ -55,6 +55,8 @@ cd scraper-python
 
 #### b. Setup Environment Variables
 
+⚠️ **PENTING:** File `.env` tidak di-commit ke GitHub untuk keamanan. Anda harus membuat sendiri:
+
 ```bash
 # Copy file .env.example menjadi .env
 copy .env.example .env          # Windows
@@ -64,6 +66,8 @@ cp .env.example .env            # macOS/Linux
 notepad .env                    # Windows
 nano .env                       # macOS/Linux
 ```
+
+> 📖 **Penjelasan Detail:** Lihat [SETUP_ENV.md](SETUP_ENV.md) untuk panduan lengkap tentang environment variables
 
 #### c. Buat Virtual Environment (Opsional tapi Direkomendasikan)
 
@@ -94,6 +98,7 @@ python init_db.py
 ```
 
 **Kredensial Login Default:**
+
 - Username: `admin`
 - Password: `admin123`
 
@@ -117,19 +122,24 @@ cd frontend-next
 
 #### b. Setup Environment Variables
 
+⚠️ **PENTING:** File `.env.local` tidak di-commit ke GitHub. Anda harus membuat sendiri:
+
 ```bash
 # Copy file .env.example menjadi .env.local
 copy .env.example .env.local    # Windows
 cp .env.example .env.local      # macOS/Linux
 
 # File .env.local sudah berisi konfigurasi default:
-# NEXT_PUBLIC_API_URL=http://127.0.0.1:5000
+# NEXT_PUBLIC_API_URL=http://localhost:5000
 ```
 
 > 💡 **Tips:** Untuk production atau akses dari device lain, ganti URL dengan IP server:
+>
 > ```
 > NEXT_PUBLIC_API_URL=http://192.168.x.x:5000
 > ```
+>
+> 📖 **Penjelasan Detail:** Lihat [SETUP_ENV.md](SETUP_ENV.md) untuk panduan lengkap
 
 #### c. Install Dependencies
 

@@ -5,6 +5,10 @@ import io
 from datetime import datetime
 import sqlite3
 import os
+from dotenv import load_dotenv
+
+# Load environment variables dari file .env
+load_dotenv()
 
 from scraper.lsp_scraper import get_lsp_links, scrape_detail
 from db import (
@@ -85,14 +89,20 @@ def init_database():
 init_database()
 
 app = Flask(__name__)
-# Configure CORS dengan explicit origins
+
+# Ambil konfigurasi dari environment variables
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+app.config['SECRET_KEY'] = SECRET_KEY
+
+# Configure CORS - baca dari environment variable
+allowed_origins = [FRONTEND_URL]
+if FRONTEND_URL != "http://localhost:3000":
+    allowed_origins.append("http://localhost:3000")  # Selalu allow localhost untuk development
+
 CORS(app, resources={
     r"/api/*": {
-        "origins": [
-            "http://localhost:3000", 
-            "http://127.0.0.1:3000",
-            "http://192.168.18.122:3000"
-        ],
+        "origins": allowed_origins,
         "methods": ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }
@@ -265,4 +275,15 @@ def download_scraping_csv(scraping_id):
     )
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Ambil konfigurasi dari environment variables
+    port = int(os.getenv('PORT', 5000))
+    host = os.getenv('HOST', '0.0.0.0')
+    debug = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
+    
+    print(f"\n🚀 Starting Flask server...")
+    print(f"📍 Host: {host}")
+    print(f"🔌 Port: {port}")
+    print(f"🐛 Debug: {debug}")
+    print(f"🌐 CORS allowed origins: {allowed_origins}\n")
+    
+    app.run(host=host, port=port, debug=debug)

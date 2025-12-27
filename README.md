@@ -53,7 +53,19 @@ cd scraping-project
 cd scraper-python
 ```
 
-#### b. Buat Virtual Environment (Opsional tapi Direkomendasikan)
+#### b. Setup Environment Variables
+
+```bash
+# Copy file .env.example menjadi .env
+copy .env.example .env          # Windows
+cp .env.example .env            # macOS/Linux
+
+# Edit file .env sesuai kebutuhan (opsional)
+notepad .env                    # Windows
+nano .env                       # macOS/Linux
+```
+
+#### c. Buat Virtual Environment (Opsional tapi Direkomendasikan)
 
 **Windows:**
 
@@ -69,19 +81,25 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-#### c. Install Dependencies
+#### d. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-#### d. Inisialisasi Database
+#### e. Inisialisasi Database
 
 ```bash
 python init_db.py
 ```
 
-#### e. Jalankan Server Backend
+**Kredensial Login Default:**
+- Username: `admin`
+- Password: `admin123`
+
+> ⚠️ **PENTING:** Ganti password setelah login pertama kali untuk keamanan!
+
+#### f. Jalankan Server Backend
 
 ```bash
 python main.py
@@ -97,7 +115,23 @@ Server akan berjalan di `http://localhost:5000`
 cd frontend-next
 ```
 
-#### b. Install Dependencies
+#### b. Setup Environment Variables
+
+```bash
+# Copy file .env.example menjadi .env.local
+copy .env.example .env.local    # Windows
+cp .env.example .env.local      # macOS/Linux
+
+# File .env.local sudah berisi konfigurasi default:
+# NEXT_PUBLIC_API_URL=http://127.0.0.1:5000
+```
+
+> 💡 **Tips:** Untuk production atau akses dari device lain, ganti URL dengan IP server:
+> ```
+> NEXT_PUBLIC_API_URL=http://192.168.x.x:5000
+> ```
+
+#### c. Install Dependencies
 
 Menggunakan npm:
 
@@ -111,7 +145,7 @@ Atau menggunakan yarn:
 yarn install
 ```
 
-#### c. Jalankan Development Server
+#### d. Jalankan Development Server
 
 Menggunakan npm:
 
@@ -127,14 +161,20 @@ yarn dev
 
 Aplikasi akan berjalan di `http://localhost:3000`
 
+> 📝 **Catatan:** Untuk production, jalankan `npm run build` terlebih dahulu, lalu `npm run start`
+
 ## 🎯 Cara Menggunakan
 
 1. **Jalankan Backend terlebih dahulu** di `http://localhost:5000`
 2. **Jalankan Frontend** di `http://localhost:3000`
 3. Buka browser dan akses `http://localhost:3000`
-4. Login menggunakan kredensial yang telah dikonfigurasi
+4. **Login menggunakan kredensial default:**
+   - Username: `admin`
+   - Password: `admin123`
 5. Gunakan fitur scraping untuk mengambil data dari sumber
 6. Export data ke format Excel jika diperlukan
+
+> ⚠️ **KEAMANAN:** Segera ganti password setelah login pertama kali!
 
 ## 📁 Struktur Project
 
@@ -162,6 +202,44 @@ scraping-project/
 ```
 
 ## 🔧 Konfigurasi
+
+### Environment Variables
+
+#### Backend (.env)
+
+Lokasi: `scraper-python/.env`
+
+```env
+# Flask Configuration
+FLASK_ENV=development
+FLASK_DEBUG=True
+
+# Database
+DATABASE_URL=sqlite:///data.db
+
+# Server Configuration
+PORT=5000
+HOST=0.0.0.0
+
+# CORS Settings
+FRONTEND_URL=http://localhost:3000
+
+# Security (GANTI DI PRODUCTION!)
+SECRET_KEY=your-secret-key-here
+JWT_SECRET=your-jwt-secret-here
+```
+
+#### Frontend (.env.local)
+
+Lokasi: `frontend-next/.env.local`
+
+```env
+# Backend API URL
+NEXT_PUBLIC_API_URL=http://127.0.0.1:5000
+
+# Untuk production atau akses dari device lain:
+# NEXT_PUBLIC_API_URL=http://192.168.x.x:5000
+```
 
 ### Backend Configuration
 
